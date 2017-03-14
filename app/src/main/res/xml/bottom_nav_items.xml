@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        barColorWhenSelected="@color/transparent"
+        icon="@drawable/ic_home_white_24dp"
+        id="@+id/home"
+        title="@string/home"/>
+    <tab
+        barColorWhenSelected="@color/transparent"
+        icon="@drawable/ic_event_white_24dp"
+        id="@+id/schedule"
+        title="@string/schedule"/>
+    <tab
+        barColorWhenSelected="@color/transparent"
+        icon="@drawable/ic_map_white_24dp"
+        id="@+id/map"
+        title="@string/map"/>
+    <tab
+        barColorWhenSelected="@color/transparent"
+        icon="@drawable/ic_announcement_white_24dp"
+        id="@+id/updates"
+        title="@string/updates"/>
+    <tab
+        barColorWhenSelected="@color/transparent"
+        icon="@drawable/ic_person_white_24dp"
+        id="@+id/sponsors"
+        title="@string/sponsors"/>
+</tabs>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="backgroundBlue">#2f306d</color>
+    <color name="backgroundPurple">#921860</color>
+    <color name="backgroundGreen">#175140</color>
+
+    <color name="highlightBlue">#ceddff</color>
+    <color name="highlightPurple">#f7cbe6</color>
+    <color name="highlightGreen">#b9e5d8</color>
+
+    <color name="defaultText">#d3d3df</color>
+
+    <color name="colorPrimary">@color/backgroundBlue</color>
+    <color name="colorPrimaryDark">@color/backgroundPurple</color>
+    <color name="colorAccent">@color/backgroundGreen</color>
+
+    <color name="homeTab">@color/backgroundBlue</color>
+    <color name="scheduleTab">@color/backgroundPurple</color>
+    <color name="mapTab">@color/backgroundGreen</color>
+    <color name="updatesTab">@color/backgroundBlue</color>
+    <color name="sponsorsTab">@color/backgroundPurple</color>
+</resources>

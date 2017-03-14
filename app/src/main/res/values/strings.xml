@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BuildHer</string>
+    <string name="home">Home</string>
+    <string name="schedule">Schedule</string>
+    <string name="map">Map</string>
+    <string name="updates">Updates</string>
+    <string name="sponsors">Sponsors</string>
+</resources>
