@@ -40,13 +40,10 @@ public class SponsorFragment extends WatchableFragment implements AdapterView.On
         return new SponsorFragment();
     }
 
-    public static final String TAG = "WatchableFragment";
-
     @BindView(R.id.sponsor_list) ListView mSponsorList;
     private List<Sponsor> mSponsors;
 
     public SponsorFragment() {
-        // Required empty public constructor
         mSponsors = new ArrayList<>();
         mSponsors.add(new Sponsor("Microsoft",
                 "http://www.microsoft.com",
