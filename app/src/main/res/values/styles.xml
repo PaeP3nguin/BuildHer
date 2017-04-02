@@ -8,9 +8,16 @@
 
     <!-- Dummy theme for transparent nav button background, see v21 -->
     <style name="AppTheme.TransNav" parent="AppTheme"/>
-    
-    <style name="BungeeHeader">
+
+    <style name="PageHeader">
         <item name="fontPath">BungeeInline.ttf</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/page_title_text_size</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="HugeText">
+        <item name="android:textSize">@dimen/huge_text_size</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 </resources>
