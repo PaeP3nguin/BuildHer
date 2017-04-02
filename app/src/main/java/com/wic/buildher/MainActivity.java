@@ -1,141 +1,143 @@
 package com.wic.buildher;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
+import android.animation.AnimatorSet;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IdRes;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.util.SparseIntArray;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements WatchableFragment
+        .OnLifecycleListener {
 
-    static final private SparseIntArray mTabColors = new SparseIntArray();
-    static {
-        mTabColors.append(R.id.home, R.color.homeTab);
-        mTabColors.append(R.id.schedule, R.color.scheduleTab);
-        mTabColors.append(R.id.map, R.color.mapTab);
-        mTabColors.append(R.id.updates, R.color.updatesTab);
-        mTabColors.append(R.id.sponsors, R.color.sponsorsTab);
-    }
-
+    @BindView(R.id.main_view) View mMainView;
     @BindView(R.id.bottom_nav) BottomBar mBottomNav;
-    @BindView(R.id.main_view) ViewGroup mMainView;
-    @BindView(R.id.background_overlay) View mBackgroundOverlay;
-    int mCurrBackgroundColor;
+    @BindView(R.id.background_overlay) SurfaceView mBackgroundOverlay;
+    @BindView(R.id.color_overlay) View mColorOverlay;
+    @BindView(R.id.fragment_container) View mFragmentContainer;
+    @IdRes int mCurrTab;
+    SurfaceHolder mBackgroundSurface;
+
+    @ColorInt int backgroundColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        mCurrBackgroundColor = getResources().getColor(R.color.homeTab);
-        mMainView.setBackgroundColor(mCurrBackgroundColor);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBackgroundSurface = mBackgroundOverlay.getHolder();
+            mBackgroundOverlay.setVisibility(View.VISIBLE);
+        }
 
         mBottomNav.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
-                animateBgColorChange(tabId);
-            }
-        }, false);
-    }
+                mCurrTab = tabId;
+                WatchableFragment fragment = null;
+                int oldColor = backgroundColor;
+                if (tabId == R.id.home) {
+                    fragment = HomeFragment.newInstance();
+                    backgroundColor = getResources().getColor(R.color.backgroundBlue);
+                } else if (tabId == R.id.schedule) {
+                    fragment = ScheduleFragment.newInstance();
+                    backgroundColor = getResources().getColor(R.color.backgroundPurple);
+                } else if (tabId == R.id.map) {
+                    fragment = MapFragment.newInstance();
+                    backgroundColor = getResources().getColor(R.color.backgroundGreen);
+                } else if (tabId == R.id.updates) {
+                    fragment = UpdatesFragment.newInstance();
+                    backgroundColor = getResources().getColor(R.color.backgroundBlue);
+                } else if (tabId == R.id.sponsors) {
+                    fragment = SponsorsFragment.newInstance();
+                    backgroundColor = getResources().getColor(R.color.backgroundPurple);
+                }
+                assert fragment != null;
 
-    private void animateBgColorChange(@IdRes int tabId) {
-        final int targetColor = getResources().getColor(mTabColors.get(tabId));
-        mMainView.clearAnimation();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            interpolateBgColorChange(targetColor);
-        } else {
-            circularBgColorChange(tabId, targetColor);
-        }
-    }
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    // Prepare for circular reveal by getting an image of the current Fragment and
+                    // showing it in the background so the new Fragment can be revealed on top of it
 
-    private void interpolateBgColorChange(@ColorInt final int targetColor) {
-        final ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(mMainView,
-                "backgroundColor", new ArgbEvaluator(), mCurrBackgroundColor, targetColor);
-        backgroundColorAnimator.setDuration(300);
-        backgroundColorAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                onEnd();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {
-                onEnd();
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {
-            }
-
-            private void onEnd() {
-                mCurrBackgroundColor = targetColor;
-                mMainView.setBackgroundColor(mCurrBackgroundColor);
+                    if (mFragmentContainer.getWidth() > 0) {
+                        // Only run if not the initial call of setOnTabSelectListener in onCreate
+                        Canvas fragmentCanvas = mBackgroundSurface.lockCanvas();
+                        fragmentCanvas.drawColor(oldColor);
+                        mFragmentContainer.draw(fragmentCanvas);
+                        mBackgroundSurface.unlockCanvasAndPost(fragmentCanvas);
+                        fragment.addOnLifecycleListener(MainActivity.this);
+                    } else {
+                        // Set background color in initial callback
+                        mColorOverlay.setBackgroundColor(backgroundColor);
+                    }
+                } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    // Nice fade when circular reveal not possible
+                    transaction.setCustomAnimations(android.R.animator.fade_in,
+                            android.R.animator.fade_out);
+                    // TODO: Animate background color change
+                }
+                transaction.replace(R.id.fragment_container, fragment).commit();
             }
         });
-        backgroundColorAnimator.start();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void circularBgColorChange(@IdRes int tabId, final int newColor) {
-        View tab = findViewById(tabId);
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
-        mBackgroundOverlay.clearAnimation();
-        mBackgroundOverlay.setBackgroundColor(newColor);
-        mBackgroundOverlay.setVisibility(View.VISIBLE);
+    @Override
+    protected void onPause() {
+        Fresco.getImagePipeline().clearCaches();
 
+        super.onPause();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onLifecycleEvent(int event) {
+        if (event != WatchableFragment.ON_CREATE_VIEW) return;
+
+        View tab = findViewById(mCurrTab);
         int[] loc = new int[2];
         tab.getLocationOnScreen(loc);
         int centerX = loc[0] + tab.getMeasuredWidth() / 2;
         int centerY = loc[1] + tab.getMeasuredHeight() / 2;
         int startRadius = 0;
-        int finalRadius = Math.max(mMainView.getWidth(), mMainView.getHeight());
+        int finalRadius = (int) Math.hypot(mBackgroundOverlay.getWidth(),
+                mBackgroundOverlay.getHeight());
 
-        Animator animator = ViewAnimationUtils.createCircularReveal(
-                mBackgroundOverlay,
-                centerX,
-                centerY,
-                startRadius,
-                finalRadius
-        );
+        Animator fragmentReveal = ViewAnimationUtils.createCircularReveal(
+                mFragmentContainer, centerX, centerY, startRadius, finalRadius);
+        //        fragmentReveal.setInterpolator(new DecelerateInterpolator(2f));
+        fragmentReveal.setDuration(400);
 
-        animator.setDuration(300);
+        mColorOverlay.setBackgroundColor(backgroundColor);
 
-        animator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                onEnd();
-            }
+        Animator colorReveal = ViewAnimationUtils.createCircularReveal(
+                mColorOverlay, centerX, centerY, startRadius, finalRadius);
+        colorReveal.setDuration(400);
 
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                onEnd();
-            }
-
-            private void onEnd() {
-                mMainView.setBackgroundColor(newColor);
-                mBackgroundOverlay.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        animator.start();
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(fragmentReveal, colorReveal);
+        animatorSet.start();
     }
 }

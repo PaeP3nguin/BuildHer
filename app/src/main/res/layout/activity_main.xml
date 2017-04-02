@@ -3,28 +3,34 @@
     android:id="@+id/main_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.wic.buildher.MainActivity">
+    android:orientation="vertical">
 
-    <View
+    <SurfaceView
         android:id="@+id/background_overlay"
         android:layout_width="match_parent"
-        android:visibility="invisible"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <View
+        android:id="@+id/color_overlay"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_nav"
+        android:layout_alignParentTop="true"
+        android:paddingTop="@dimen/status_bar_height"/>
 
     <com.roughike.bottombar.BottomBar
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
         android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
         app:bb_activeTabColor="@android:color/white"
         app:bb_behavior="underNavbar"
         app:bb_tabXmlResource="@xml/bottom_nav_items"/>

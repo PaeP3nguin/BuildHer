@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<tabs>
+<tabs xmlns:android="http://schemas.android.com/apk/res/android">
     <tab
-        barColorWhenSelected="@color/transparent"
-        icon="@drawable/ic_home_white_24dp"
         id="@+id/home"
-        title="@string/home"/>
+        android:icon="@drawable/ic_home_white_24dp"
+        android:title="@string/home"
+        barColorWhenSelected="@color/transparent"/>
     <tab
-        barColorWhenSelected="@color/transparent"
-        icon="@drawable/ic_event_white_24dp"
         id="@+id/schedule"
-        title="@string/schedule"/>
+        android:icon="@drawable/ic_event_white_24dp"
+        android:title="@string/schedule"
+        barColorWhenSelected="@color/transparent"/>
     <tab
-        barColorWhenSelected="@color/transparent"
-        icon="@drawable/ic_map_white_24dp"
         id="@+id/map"
-        title="@string/map"/>
+        android:icon="@drawable/ic_map_white_24dp"
+        android:title="@string/map"
+        barColorWhenSelected="@color/transparent"/>
     <tab
-        barColorWhenSelected="@color/transparent"
-        icon="@drawable/ic_announcement_white_24dp"
         id="@+id/updates"
-        title="@string/updates"/>
+        android:icon="@drawable/ic_announcement_white_24dp"
+        android:title="@string/updates"
+        barColorWhenSelected="@color/transparent"/>
     <tab
-        barColorWhenSelected="@color/transparent"
-        icon="@drawable/ic_person_white_24dp"
         id="@+id/sponsors"
-        title="@string/sponsors"/>
+        android:icon="@drawable/ic_person_white_24dp"
+        android:title="@string/sponsors"
+        barColorWhenSelected="@color/transparent"/>
 </tabs>

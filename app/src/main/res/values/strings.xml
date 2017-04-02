@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">BuildHer</string>
+
+    <!-- Tab names -->
     <string name="home">Home</string>
     <string name="schedule">Schedule</string>
     <string name="map">Map</string>
     <string name="updates">Updates</string>
     <string name="sponsors">Sponsors</string>
+
+    <!-- Parse constants -->
+    <string name="parse_server_url">http://buildher.herokuapp.com/parse/</string>
+    <string name="parse_app_id">BuildHerApp</string>
 </resources>
