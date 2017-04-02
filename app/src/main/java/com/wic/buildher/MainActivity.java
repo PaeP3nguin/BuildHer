@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements WatchableFragment
                     fragment = UpdatesFragment.newInstance();
                     backgroundColor = getResources().getColor(R.color.backgroundBlue);
                 } else if (tabId == R.id.sponsors) {
-                    fragment = SponsorsFragment.newInstance();
+                    fragment = SponsorFragment.newInstance();
                     backgroundColor = getResources().getColor(R.color.backgroundPurple);
                 }
                 assert fragment != null;

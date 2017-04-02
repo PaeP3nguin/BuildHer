@@ -16,4 +16,11 @@
         android:text="@string/sponsors"
         android:textColor="@android:color/white"
         android:textSize="28sp"/>
+
+    <ListView
+        android:id="@+id/sponsor_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"/>
 </LinearLayout>
