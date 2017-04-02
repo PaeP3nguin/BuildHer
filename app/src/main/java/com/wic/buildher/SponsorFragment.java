@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  */
 public class SponsorFragment extends WatchableFragment implements AdapterView.OnItemClickListener {
     /**
-     * Class representing a Sponsor
+     * Class representing a sponsor
      */
     public static class Sponsor {
         String name;
