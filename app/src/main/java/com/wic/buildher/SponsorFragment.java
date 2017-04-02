@@ -25,9 +25,9 @@ public class SponsorFragment extends WatchableFragment implements AdapterView.On
      * Class representing a sponsor
      */
     public static class Sponsor {
-        String name;
-        String websiteUrl;
-        @DrawableRes int logo;
+        public String name;
+        public String websiteUrl;
+        public @DrawableRes int logo;
 
         public Sponsor(String name, String websiteUrl, int logo) {
             this.name = name;
