@@ -11,9 +11,9 @@
 
     <color name="defaultText">#d3d3df</color>
 
-    <color name="colorPrimary">@color/backgroundBlue</color>
-    <color name="colorPrimaryDark">@color/backgroundPurple</color>
-    <color name="colorAccent">@color/backgroundGreen</color>
+    <color name="colorPrimary">@color/defaultText</color>
+    <color name="colorPrimaryDark">@color/backgroundBlue</color>
+    <color name="colorAccent">@android:color/white</color>
 
     <!-- Tab background colors -->
     <color name="homeTab">@color/backgroundBlue</color>

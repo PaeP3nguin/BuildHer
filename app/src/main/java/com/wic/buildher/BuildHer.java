@@ -2,7 +2,6 @@ package com.wic.buildher;
 
 import android.app.Application;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.parse.Parse;
 
@@ -15,7 +14,6 @@ public class BuildHer extends Application {
         AndroidThreeTen.init(this);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this);
-        Fresco.initialize(this);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/Muli.ttf")
                 .build());

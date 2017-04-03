@@ -1,4 +1,4 @@
-package com.wic.buildher;
+package com.wic.buildher.widget;
 
 import android.content.Context;
 import android.graphics.Rect;

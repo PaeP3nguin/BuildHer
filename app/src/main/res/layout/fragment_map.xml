@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.wic.buildher.FitPaddingLinearLayout
+<com.wic.buildher.widget.FitPaddingRelativeLayout
     style="@style/TabFragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundGreen"
-    android:orientation="vertical">
+    android:background="@color/backgroundGreen">
 
-    <me.relex.photodraweeview.PhotoDraweeView
-        android:id="@+id/map"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        fresco:placeholderImage="@drawable/ic_event_white_24dp"/>
+    <com.wic.buildher.widget.ContentLoadingProgressBar
+        android:id="@+id/loading_indicator"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
 
     <com.github.chrisbanes.photoview.PhotoView
-        android:id="@+id/map2"
+        android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-</com.wic.buildher.FitPaddingLinearLayout>
+        android:layout_height="match_parent"/>
+</com.wic.buildher.widget.FitPaddingRelativeLayout>

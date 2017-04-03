@@ -12,7 +12,6 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
 /**
  * A Fragment for the Updates tab of the application
  */
@@ -48,7 +47,6 @@ public class UpdateFragment extends WatchableFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
 
     }
 }

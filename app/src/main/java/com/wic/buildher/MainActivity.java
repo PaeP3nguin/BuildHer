@@ -14,7 +14,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -84,13 +83,6 @@ public class MainActivity extends AppCompatActivity implements WatchableFragment
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    @Override
-    protected void onPause() {
-        Fresco.getImagePipeline().clearCaches();
-
-        super.onPause();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
