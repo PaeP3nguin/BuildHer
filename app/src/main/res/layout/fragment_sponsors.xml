@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.wic.buildher.FitPaddingLinearLayout
+    style="@style/TabFragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/status_bar_height">
+    android:background="@color/backgroundPurple"
+    android:orientation="vertical">
 
     <TextView
         style="@style/PageHeader"
@@ -18,4 +19,4 @@
         android:layout_height="match_parent"
         android:divider="@null"
         android:dividerHeight="0dp"/>
-</LinearLayout>
+</com.wic.buildher.FitPaddingLinearLayout>

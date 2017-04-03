@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.wic.buildher.FitPaddingLinearLayout
+    style="@style/TabFragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/status_bar_height"
-    tools:ignore="MissingPrefix">
+    android:background="@color/backgroundBlue"
+    android:orientation="vertical">
 
     <TextView
-        fontPath="fonts/BungeeInline.ttf"
+        style="@style/PageHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/updates"
-        android:textColor="@android:color/white"
-        android:textSize="28sp"/>
-</LinearLayout>
+        android:text="@string/updates"/>
+
+    <ListView
+        android:id="@+id/update_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"/>
+</com.wic.buildher.FitPaddingLinearLayout>
