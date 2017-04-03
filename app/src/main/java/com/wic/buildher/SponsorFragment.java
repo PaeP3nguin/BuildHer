@@ -21,9 +21,6 @@ import butterknife.ButterKnife;
  * A Fragment for the Sponsors tab of the application
  */
 public class SponsorFragment extends WatchableFragment implements AdapterView.OnItemClickListener {
-    /**
-     * Class representing a sponsor
-     */
     public static class Sponsor {
         public String name;
         public String websiteUrl;

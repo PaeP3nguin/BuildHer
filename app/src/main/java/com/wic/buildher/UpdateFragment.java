@@ -7,7 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.util.Date;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,15 +20,6 @@ import butterknife.ButterKnife;
  * A Fragment for the Updates tab of the application
  */
 public class UpdateFragment extends WatchableFragment {
-    /**
-     * Class representing an update
-     */
-    public static class Update {
-        public String subject;
-        public String message;
-        public Date time;
-    }
-
     public static UpdateFragment newInstance() {
         return new UpdateFragment();
     }
@@ -48,5 +43,17 @@ public class UpdateFragment extends WatchableFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ParseQuery.getQuery(Update.class)
+                .orderByDescending("createdAt")
+                .setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK)
+                .findInBackground(new FindCallback<Update>() {
+                    @Override
+                    public void done(List<Update> list, ParseException e) {
+                        if (list == null || e != null) {
+                            return;
+                        }
+                        mUpdatesList.setAdapter(new UpdateListAdapter(getActivity(), list));
+                    }
+                });
     }
 }

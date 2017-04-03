@@ -14,16 +14,18 @@ import java.util.List;
  * Adapter for a list of sponsors
  */
 class SponsorListAdapter extends ArrayAdapter<SponsorFragment.Sponsor> {
+    private LayoutInflater mInflater;
+
     public SponsorListAdapter(Context context, List<SponsorFragment.Sponsor> sponsors) {
         super(context, 0, sponsors);
+        mInflater = LayoutInflater.from(getContext());
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.list_item_sponsor, parent, false);
+            convertView = mInflater.inflate(R.layout.list_item_sponsor, parent, false);
         }
         SponsorFragment.Sponsor sponsor = getItem(position);
         ((ImageView) convertView).setImageResource(sponsor.logo);
