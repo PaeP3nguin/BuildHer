@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="InsetFrameLayout">
+        <!-- Re-dispatch insets to any child layout when it is attached to this view -->
+        <attr name="dispatchInsetsOnChildAdded" format="boolean"/>
+    </declare-styleable>
+</resources>

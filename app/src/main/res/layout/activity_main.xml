@@ -14,7 +14,8 @@
     <com.wic.buildher.widget.InsetFrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:dispatchInsetsOnChildAdded="true"/>
 
     <com.roughike.bottombar.BottomBar
         android:id="@+id/bottom_nav"

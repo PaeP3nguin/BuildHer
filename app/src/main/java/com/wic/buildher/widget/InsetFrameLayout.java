@@ -1,9 +1,8 @@
 package com.wic.buildher.widget;
 
 import android.content.Context;
-import android.os.Build;
+import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.view.OnApplyWindowInsetsListener;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.WindowInsetsCompat;
@@ -11,6 +10,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import com.wic.buildher.R;
 
 /**
  * FrameLayout that saves window insets and dispatches them to all new children
@@ -21,35 +22,31 @@ public class InsetFrameLayout extends FrameLayout implements ViewGroup
     private WindowInsetsCompat mInsets;
 
     public InsetFrameLayout(Context context) {
-        super(context);
-        init();
+        this(context, null);
     }
 
     public InsetFrameLayout(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        init();
+        this(context, attrs, 0);
     }
 
     public InsetFrameLayout(Context context, @Nullable AttributeSet attrs, int
             defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
-    }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public InsetFrameLayout(Context context, AttributeSet attrs, int defStyleAttr, int
-            defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
-    }
-
-    private void init() {
+        TypedArray array = context.getTheme()
+                .obtainStyledAttributes(attrs, R.styleable.InsetFrameLayout, 0, 0);
+        if (array.getBoolean(R.styleable.InsetFrameLayout_dispatchInsetsOnChildAdded, false)) {
+            setOnHierarchyChangeListener(this);
+        }
         ViewCompat.setOnApplyWindowInsetsListener(this, this);
-        setOnHierarchyChangeListener(this);
     }
 
     @Override
     public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
+        if (insets.equals(mInsets)) {
+            return insets.consumeSystemWindowInsets();
+        }
+
         mInsets = insets;
 
         for (int index = 0; index < getChildCount(); index++) {
