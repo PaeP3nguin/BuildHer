@@ -19,12 +19,14 @@ import butterknife.ButterKnife;
 /**
  * A Fragment for the Updates tab of the application
  */
-public class UpdateFragment extends WatchableFragment {
+public class UpdateFragment extends WatchableFragment implements FindCallback<Update> {
     public static UpdateFragment newInstance() {
         return new UpdateFragment();
     }
 
     @BindView(R.id.update_list) ListView mUpdatesList;
+
+    private ParseQuery<Update> mUpdateQuery;
 
     public UpdateFragment() {
     }
@@ -43,17 +45,28 @@ public class UpdateFragment extends WatchableFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ParseQuery.getQuery(Update.class)
+        mUpdateQuery = ParseQuery.getQuery(Update.class)
                 .orderByDescending("createdAt")
-                .setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK)
-                .findInBackground(new FindCallback<Update>() {
-                    @Override
-                    public void done(List<Update> list, ParseException e) {
-                        if (list == null || e != null) {
-                            return;
-                        }
-                        mUpdatesList.setAdapter(new UpdateListAdapter(getActivity(), list));
-                    }
-                });
+                .setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        mUpdateQuery
+                .findInBackground(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mUpdateQuery.cancel();
+    }
+
+    @Override
+    public void done(List<Update> list, ParseException e) {
+        if (list == null || e != null) {
+            return;
+        }
+        if (isDetached() || getActivity() == null) {
+            return;
+        }
+
+        mUpdatesList.setAdapter(new UpdateListAdapter(getActivity(), list));
     }
 }

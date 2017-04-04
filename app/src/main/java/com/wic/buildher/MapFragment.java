@@ -38,6 +38,10 @@ public class MapFragment extends WatchableFragment implements
     @BindView(R.id.loading_indicator) ContentLoadingProgressBar mLoadingIndicator;
     @BindView(R.id.map) PhotoView mMap;
 
+    private ParseQuery<ParseObject> mMapQuery;
+    private SharedPreferences mSharedPref;
+    private String mLocalMapUrl;
+
     public MapFragment() {
     }
 
@@ -57,33 +61,39 @@ public class MapFragment extends WatchableFragment implements
 
         mMap.setMaximumScale(10);
 
+        mSharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mLocalMapUrl = mSharedPref.getString(MAP_URL_KEY, "");
+
         loadMapImage();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mMapQuery.cancel();
     }
 
     private void loadMapImage() {
         // Load image from Fresco cache if we have a URL cached
-        final SharedPreferences sharedPref = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
-        final String localMapUrl = sharedPref.getString(MAP_URL_KEY, "");
-        if (!localMapUrl.isEmpty()) {
+        if (!mLocalMapUrl.isEmpty()) {
             Log.i(TAG, "Map URL found in SharedPreferences");
-            glideMapIntoPhotoView(localMapUrl);
+            glideMapIntoPhotoView(mLocalMapUrl);
         } else {
             Log.i(TAG, "Map URL not found in SharedPreferences");
             mLoadingIndicator.show();
         }
 
-        ParseQuery.getQuery("Map")
-                .orderByDescending("updatedAt")
-                .getFirstInBackground(this);
+        mMapQuery = ParseQuery.getQuery("Map").orderByDescending("updatedAt");
+        mMapQuery.getFirstInBackground(this);
     }
 
     @Override
     public void done(ParseObject result, ParseException e) {
-        final SharedPreferences sharedPref = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
-        final String localMapUrl = sharedPref.getString(MAP_URL_KEY, "");
-        if (e != null) {
+        if (isDetached() || getActivity() == null) {
+            return;
+        }
+
+        if (result == null || e != null) {
             // Couldn't find map URL at all :(
             Log.i(TAG, "Unable to fetch map URL from server");
             glideMapIntoPhotoView(R.drawable.map_placeholder);
@@ -91,11 +101,11 @@ public class MapFragment extends WatchableFragment implements
             String serverMapUrl = result.getParseFile("picture").getUrl();
             Log.i(TAG, "Map URL from server: " + serverMapUrl);
 
-            if (serverMapUrl.equals(localMapUrl)) {
+            if (serverMapUrl.equals(mLocalMapUrl)) {
                 Log.i(TAG, "Server map URL same as local");
             } else {
                 glideMapIntoPhotoView(serverMapUrl);
-                sharedPref.edit().putString(MAP_URL_KEY, serverMapUrl).apply();
+                mSharedPref.edit().putString(MAP_URL_KEY, serverMapUrl).apply();
                 Log.i(TAG, "Loaded map from server");
             }
         }
