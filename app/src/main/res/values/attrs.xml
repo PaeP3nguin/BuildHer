@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="BorderlessRadioButton">
+        <!-- Path for a custom font to apply when button is checked -->
+        <attr name="checkedFontPath" format="string"/>
+        <!-- Path for a custom font to apply when button is not checked -->
+        <attr name="uncheckedFontPath" format="string"/>
+    </declare-styleable>
+
+    <attr name="BorderlessRadioButtonStyle" format="reference"/>
+
     <declare-styleable name="InsetFrameLayout">
         <!-- Re-dispatch insets to any child layout when it is attached to this view -->
         <attr name="dispatchInsetsOnChildAdded" format="boolean"/>

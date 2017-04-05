@@ -8,6 +8,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="@attr/BorderlessRadioButtonStyle">@style/BorderlessRadioButton</item>
     </style>
 
     <!-- Dummy theme for transparent nav button background, see v21 -->
@@ -28,5 +29,10 @@
     <style name="HugeText">
         <item name="android:textSize">@dimen/huge_text_size</item>
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="BorderlessRadioButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:button">@null</item>
     </style>
 </resources>

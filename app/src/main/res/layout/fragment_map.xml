@@ -1,20 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.wic.buildher.widget.FitPaddingRelativeLayout
+<com.wic.buildher.widget.FitPaddingLinearLayout
     style="@style/TabFragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundGreen">
-
-    <com.wic.buildher.widget.ContentLoadingProgressBar
-        android:id="@+id/loading_indicator"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+    android:background="@color/backgroundGreen"
+    android:orientation="vertical">
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</com.wic.buildher.widget.FitPaddingRelativeLayout>
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:src="@drawable/map_campus"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.wic.buildher.widget.BorderlessRadioButton
+            android:id="@+id/show_campus_map"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="Campus"
+            android:textSize="15sp"
+            app:checkedFontPath="fonts/Muli-Bold.ttf"
+            app:uncheckedFontPath="fonts/Muli.ttf"/>
+
+        <com.wic.buildher.widget.BorderlessRadioButton
+            android:id="@+id/show_tech_1_map"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="Tech floor 1"
+            android:textSize="15sp"
+            app:checkedFontPath="fonts/Muli-Bold.ttf"
+            app:uncheckedFontPath="fonts/Muli.ttf"/>
+
+        <com.wic.buildher.widget.BorderlessRadioButton
+            android:id="@+id/show_tech_3_map"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="Tech floor 3"
+            android:textSize="15sp"
+            app:checkedFontPath="fonts/Muli-Bold.ttf"
+            app:uncheckedFontPath="fonts/Muli.ttf"/>
+    </RadioGroup>
+</com.wic.buildher.widget.FitPaddingLinearLayout>
