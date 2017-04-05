@@ -26,7 +26,7 @@ public class UpdateAdapter extends ArrayAdapter<Update> {
         @BindView(R.id.message) TextView message;
         @BindView(R.id.time) TextView time;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }

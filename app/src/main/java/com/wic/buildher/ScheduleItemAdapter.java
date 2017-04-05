@@ -29,7 +29,7 @@ public class ScheduleItemAdapter extends ArrayAdapter<ScheduleItem>
         @BindView(R.id.title) TextView title;
         @BindView(R.id.description) TextView description;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
@@ -37,7 +37,7 @@ public class ScheduleItemAdapter extends ArrayAdapter<ScheduleItem>
     static class HeaderViewHolder {
         @BindView(R.id.day) TextView day;
 
-        public HeaderViewHolder(View view) {
+        HeaderViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
