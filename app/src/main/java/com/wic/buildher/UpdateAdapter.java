@@ -18,9 +18,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Adapter for a list of updates
+ * Adapter for a list of {@link Update}
  */
-public class UpdateListAdapter extends ArrayAdapter<Update> {
+public class UpdateAdapter extends ArrayAdapter<Update> {
     static class ViewHolder {
         @BindView(R.id.subject) TextView subject;
         @BindView(R.id.message) TextView message;
@@ -34,7 +34,7 @@ public class UpdateListAdapter extends ArrayAdapter<Update> {
     private LayoutInflater mInflater;
     private DateTimeFormatter mDateTimeFormatter;
 
-    public UpdateListAdapter(Context context, List<Update> updates) {
+    public UpdateAdapter(Context context, List<Update> updates) {
         super(context, 0, updates);
         mInflater = LayoutInflater.from(getContext());
         mDateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd, hh:mm a",

@@ -14,7 +14,7 @@
         android:text="@string/updates"/>
 
     <ListView
-        android:id="@+id/update_list"
+        android:id="@+id/updates"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null"/>

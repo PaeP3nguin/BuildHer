@@ -14,6 +14,7 @@ public class BuildHer extends Application {
         super.onCreate();
         AndroidThreeTen.init(this);
         ParseObject.registerSubclass(Update.class);
+        ParseObject.registerSubclass(ScheduleItem.class);
         Parse.initialize(this);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/Muli.ttf")

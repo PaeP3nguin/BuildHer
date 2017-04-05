@@ -24,9 +24,10 @@ public class UpdateFragment extends WatchableFragment implements FindCallback<Up
         return new UpdateFragment();
     }
 
-    @BindView(R.id.update_list) ListView mUpdatesList;
+    @BindView(R.id.updates) ListView mUpdates;
 
     private ParseQuery<Update> mUpdateQuery;
+    private UpdateAdapter mUpdateAdapter;
 
     public UpdateFragment() {
     }
@@ -48,8 +49,7 @@ public class UpdateFragment extends WatchableFragment implements FindCallback<Up
         mUpdateQuery = ParseQuery.getQuery(Update.class)
                 .orderByDescending("createdAt")
                 .setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-        mUpdateQuery
-                .findInBackground(this);
+        mUpdateQuery.findInBackground(this);
     }
 
     @Override
@@ -67,6 +67,33 @@ public class UpdateFragment extends WatchableFragment implements FindCallback<Up
             return;
         }
 
-        mUpdatesList.setAdapter(new UpdateListAdapter(getActivity(), list));
+        if (mUpdateAdapter == null) {
+            showUpdates(list);
+        } else {
+            if (mUpdateAdapter.getCount() != list.size()) {
+                // Server has diff number of updates, show the server's updates
+                showUpdates(list);
+            } else {
+                // Check if there are any updates that aren't the same
+                for (int i = 0; i < list.size(); i++) {
+                    if (!list.get(i).hasSameId(mUpdateAdapter.getItem(i))) {
+                        showUpdates(list);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    public void showUpdates(List<Update> list) {
+        if (mUpdateAdapter == null) {
+            mUpdateAdapter = new UpdateAdapter(getActivity(), list);
+            mUpdates.setAdapter(mUpdateAdapter);
+        } else {
+            mUpdateAdapter.setNotifyOnChange(false);
+            mUpdateAdapter.clear();
+            mUpdateAdapter.addAll(list);
+            mUpdateAdapter.notifyDataSetChanged();
+        }
     }
 }
