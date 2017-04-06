@@ -23,6 +23,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity
         implements WatchableFragment.OnLifecycleListener, OnTabSelectListener {
+    public static boolean VISIBLE = false;
+
     @BindView(R.id.bottom_nav) BottomBar mBottomNav;
     @BindView(R.id.fragment_container) View mFragmentContainer;
     @BindView(R.id.background_overlay) SurfaceView mBackgroundOverlay;
@@ -40,6 +42,18 @@ public class MainActivity extends AppCompatActivity
         }
 
         mBottomNav.setOnTabSelectListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        VISIBLE = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        VISIBLE = false;
     }
 
     @Override
