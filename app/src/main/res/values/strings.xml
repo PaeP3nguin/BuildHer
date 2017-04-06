@@ -13,4 +13,5 @@
     <!-- Parse constants -->
     <string name="parse_server_url">http://buildher.herokuapp.com/parse/</string>
     <string name="parse_app_id">BuildHerApp</string>
+    <string name="gcm_sender_id">id:703336351827</string>
 </resources>
