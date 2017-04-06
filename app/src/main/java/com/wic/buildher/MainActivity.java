@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.SurfaceHolder;
@@ -22,13 +21,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity implements WatchableFragment
-        .OnLifecycleListener {
-
+public class MainActivity extends AppCompatActivity
+        implements WatchableFragment.OnLifecycleListener, OnTabSelectListener {
     @BindView(R.id.bottom_nav) BottomBar mBottomNav;
     @BindView(R.id.fragment_container) View mFragmentContainer;
     @BindView(R.id.background_overlay) SurfaceView mBackgroundOverlay;
-    SurfaceHolder mBackgroundSurface;
+    private SurfaceHolder mBackgroundSurface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,48 +39,48 @@ public class MainActivity extends AppCompatActivity implements WatchableFragment
             mBackgroundOverlay.setVisibility(View.VISIBLE);
         }
 
-        mBottomNav.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelected(@IdRes int tabId) {
-                WatchableFragment fragment = null;
-                if (tabId == R.id.home) {
-                    fragment = HomeFragment.newInstance();
-                } else if (tabId == R.id.schedule) {
-                    fragment = ScheduleFragment.newInstance();
-                } else if (tabId == R.id.map) {
-                    fragment = MapFragment.newInstance();
-                } else if (tabId == R.id.updates) {
-                    fragment = UpdateFragment.newInstance();
-                } else if (tabId == R.id.sponsors) {
-                    fragment = SponsorFragment.newInstance();
-                }
-                assert fragment != null;
-
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    // Prepare for circular reveal by getting an image of the current Fragment and
-                    // showing it in the background so the new Fragment can be revealed on top of it
-
-                    if (mFragmentContainer.getWidth() > 0) {
-                        // Only run if not the initial call of setOnTabSelectListener in onCreate
-                        Canvas fragmentCanvas = mBackgroundSurface.lockCanvas();
-                        mFragmentContainer.draw(fragmentCanvas);
-                        mBackgroundSurface.unlockCanvasAndPost(fragmentCanvas);
-                        fragment.addOnLifecycleListener(MainActivity.this);
-                    }
-                } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                    // Nice fade when circular reveal not possible
-                    transaction.setCustomAnimations(android.R.animator.fade_in,
-                            android.R.animator.fade_out);
-                }
-                transaction.replace(R.id.fragment_container, fragment).commit();
-            }
-        });
+        mBottomNav.setOnTabSelectListener(this);
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public void onTabSelected(int tabId) {
+        WatchableFragment fragment = null;
+        if (tabId == R.id.home) {
+            fragment = HomeFragment.newInstance();
+        } else if (tabId == R.id.schedule) {
+            fragment = ScheduleFragment.newInstance();
+        } else if (tabId == R.id.map) {
+            fragment = MapFragment.newInstance();
+        } else if (tabId == R.id.updates) {
+            fragment = UpdateFragment.newInstance();
+        } else if (tabId == R.id.sponsors) {
+            fragment = SponsorFragment.newInstance();
+        }
+        assert fragment != null;
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // Prepare for circular reveal by getting an image of the current Fragment and
+            // showing it in the background so the new Fragment can be revealed on top of it
+
+            if (mFragmentContainer.getWidth() > 0) {
+                // Only run if not the initial call of setOnTabSelectListener in onCreate
+                Canvas fragmentCanvas = mBackgroundSurface.lockCanvas();
+                mFragmentContainer.draw(fragmentCanvas);
+                mBackgroundSurface.unlockCanvasAndPost(fragmentCanvas);
+                fragment.addOnLifecycleListener(MainActivity.this);
+            }
+        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            // Nice fade when circular reveal not possible
+            transaction.setCustomAnimations(android.R.animator.fade_in,
+                    android.R.animator.fade_out);
+        }
+        transaction.replace(R.id.fragment_container, fragment).commit();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
