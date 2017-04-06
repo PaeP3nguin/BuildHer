@@ -8,7 +8,7 @@
     </item>
     <item
         android:bottom="30dp"
-        android:drawable="@drawable/logo_microsoft"
+        android:drawable="@drawable/logo_microsoft_white"
         android:gravity="bottom|center_horizontal">
     </item>
 </layer-list>

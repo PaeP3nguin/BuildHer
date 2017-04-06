@@ -44,22 +44,34 @@ public class SponsorFragment extends WatchableFragment implements AdapterView.On
         mSponsors = new ArrayList<>();
         mSponsors.add(new Sponsor("Microsoft",
                 "http://www.microsoft.com",
-                R.drawable.logo_microsoft));
-        mSponsors.add(new Sponsor("Deloitte",
-                "http://www.deloitte.com",
-                R.drawable.logo_deloitte));
-        mSponsors.add(new Sponsor("Diamond Assets",
-                "http://www.diamond-assets.com",
-                R.drawable.logo_diamond_assets));
+                R.drawable.logo_microsoft_white));
         mSponsors.add(new Sponsor("Intel",
                 "http://www.intel.com",
                 R.drawable.logo_intel));
-        mSponsors.add(new Sponsor("Github",
-                "http://www.github.com",
-                R.drawable.logo_github));
+        mSponsors.add(new Sponsor("Edward Jones",
+                "http://www.edwardjones.com",
+                R.drawable.logo_edward_jones));
+        mSponsors.add(new Sponsor("JPMorgan Chase & Co.",
+                "http://www.jpmorganchase.com",
+                R.drawable.logo_jpmorgan_chase));
+        mSponsors.add(new Sponsor("Diamond Assets",
+                "http://www.diamond-assets.com",
+                R.drawable.logo_diamond_assets));
+        mSponsors.add(new Sponsor("Deloitte",
+                "http://www.deloitte.com",
+                R.drawable.logo_deloitte));
         mSponsors.add(new Sponsor("Morningstar",
                 "http://www.morningstar.com",
                 R.drawable.logo_morningstar));
+        mSponsors.add(new Sponsor("Braintree",
+                "http://www.braintreepayments.com",
+                R.drawable.logo_braintree_black));
+        mSponsors.add(new Sponsor("Github",
+                "http://www.github.com",
+                R.drawable.logo_github));
+        mSponsors.add(new Sponsor("Make School",
+                "http://www.makeschool.com",
+                R.drawable.logo_make_school));
     }
 
     @Override
