@@ -21,6 +21,7 @@ import java.util.Random;
 
 /**
  * Custom Parse notification event receiver to change the notification color
+ * Source: https://github.com/parse-community/Parse-SDK-Android/blob/master/Parse/src/main/java/com/parse/ParsePushBroadcastReceiver.java
  */
 public class ParsePushReceiver extends ParsePushBroadcastReceiver {
     private static final String TAG = "PushReceiver";
