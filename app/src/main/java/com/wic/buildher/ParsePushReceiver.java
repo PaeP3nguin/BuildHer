@@ -1,13 +1,16 @@
 package com.wic.buildher;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
+import com.parse.ParseAnalytics;
 import com.parse.ParsePushBroadcastReceiver;
 
 import org.json.JSONException;
@@ -20,11 +23,56 @@ import java.util.Random;
  * Custom Parse notification event receiver to change the notification color
  */
 public class ParsePushReceiver extends ParsePushBroadcastReceiver {
+    private static final String TAG = "PushReceiver";
+
+    /**
+     * Called when the push notification is opened by the user. Sends analytics info back to Parse
+     * that the application was opened from this push notification. By default, this will navigate
+     * to the {@link Activity} returned by {@link #getActivity(Context, Intent)}. If the push
+     * contains
+     * a 'uri' parameter, an Intent is fired to view that URI with the Activity returned by
+     * {@link #getActivity} in the back stack.
+     *
+     * @param context The {@code Context} in which the receiver is running.
+     * @param intent  An {@code Intent} containing the channel and data of the current push
+     *                notification.
+     */
+    @Override
+    protected void onPushOpen(Context context, Intent intent) {
+        // Send a Parse Analytics "push opened" event
+        ParseAnalytics.trackAppOpenedInBackground(intent);
+
+        String uriString = null;
+        try {
+            JSONObject pushData = new JSONObject(intent.getStringExtra(KEY_PUSH_DATA));
+            uriString = pushData.optString("uri", null);
+        } catch (JSONException e) {
+            Log.e(TAG, "Unexpected JSONException when receiving push data: ", e);
+        }
+
+        if (MainActivity.VISIBLE) {
+            return;
+        }
+
+        Class<? extends Activity> cls = SplashActivity.class;
+        Intent activityIntent;
+        if (uriString != null) {
+            activityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
+        } else {
+            activityIntent = new Intent(context, cls);
+        }
+
+        activityIntent.putExtras(intent.getExtras());
+        activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activityIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        context.startActivity(activityIntent);
+    }
+
     private JSONObject getPushData(Intent intent) {
         try {
             return new JSONObject(intent.getStringExtra("com.parse.Data"));
         } catch (JSONException e) {
-            Log.e("PushReceiver", "Unexpected JSONException when receiving push data: ", e);
+            Log.e(TAG, "Unexpected JSONException when receiving push data: ", e);
             return null;
         }
     }
