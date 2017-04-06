@@ -46,14 +46,13 @@ public class HomeFragment extends WatchableFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        LocalDateTime hackathonStart = LocalDateTime.of(2017, Month.APRIL, 7, 8, 0);
+        LocalDateTime hackathonEnd = LocalDateTime.of(2017, Month.APRIL, 8, 15, 0);
 
-        long msUntilHackathon = ChronoUnit.MILLIS.between(LocalDateTime.now(),
-                hackathonStart);
-        if (msUntilHackathon <= 0) {
+        long msUntilEnd = ChronoUnit.MILLIS.between(LocalDateTime.now(), hackathonEnd);
+        if (msUntilEnd <= 0) {
             mCountdown.setText("00:00:00");
         } else {
-            new CountDownTimer(msUntilHackathon, 1000) {
+            new CountDownTimer(msUntilEnd, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     LocalTime displayTime;
