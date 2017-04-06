@@ -43,7 +43,7 @@ public class InsetFrameLayout extends FrameLayout implements ViewGroup
 
     @Override
     public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
-        if (insets.equals(mInsets)) {
+        if (insetEquals(insets, mInsets)) {
             return insets.consumeSystemWindowInsets();
         }
 
@@ -54,6 +54,21 @@ public class InsetFrameLayout extends FrameLayout implements ViewGroup
         }
 
         return insets;
+    }
+
+    private boolean insetEquals(WindowInsetsCompat insets1, WindowInsetsCompat insets2) {
+        if (insets1 == null || insets2 == null) {
+            return false;
+        }
+
+        if (!insets1.hasInsets() && !insets2.hasInsets()) {
+            return true;
+        }
+
+        return insets1.getSystemWindowInsetTop() == insets2.getSystemWindowInsetTop()
+                && insets1.getStableInsetBottom() == insets2.getStableInsetBottom()
+                && insets1.getSystemWindowInsetLeft() == insets2.getSystemWindowInsetLeft()
+                && insets1.getSystemWindowInsetRight() == insets2.getSystemWindowInsetRight();
     }
 
     @Override
