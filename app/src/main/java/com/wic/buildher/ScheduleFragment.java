@@ -5,17 +5,18 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.wic.buildher.widget.ContentLoadingProgressBar;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
-
 
 /**
  * A Fragment for the Schedule tab of the application
@@ -26,6 +27,8 @@ public class ScheduleFragment extends WatchableFragment implements FindCallback<
     }
 
     @BindView(R.id.schedule) StickyListHeadersListView mSchedule;
+    @BindView(R.id.loading) ContentLoadingProgressBar mLoading;
+    @BindView(R.id.loading_failed) TextView mLoadingFailed;
 
     private ParseQuery<ScheduleItem> mScheduleQuery;
     private ScheduleItemAdapter mScheduleItemAdapter;
@@ -51,6 +54,7 @@ public class ScheduleFragment extends WatchableFragment implements FindCallback<
                 .orderByAscending("order")
                 .setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         mScheduleQuery.findInBackground(this);
+        mLoading.show();
     }
 
     @Override
@@ -61,7 +65,14 @@ public class ScheduleFragment extends WatchableFragment implements FindCallback<
 
     @Override
     public void done(List<ScheduleItem> list, ParseException e) {
-        if (list == null || e != null) {
+        if (e != null) {
+            if (e.getCode() == ParseException.CONNECTION_FAILED) {
+                mLoading.hide();
+                mLoadingFailed.setVisibility(View.VISIBLE);
+            }
+            return;
+        }
+        if (list == null) {
             return;
         }
         if (isDetached() || getActivity() == null) {
@@ -87,6 +98,7 @@ public class ScheduleFragment extends WatchableFragment implements FindCallback<
     }
 
     public void showSchedule(List<ScheduleItem> list) {
+        mLoading.hide();
         if (mScheduleItemAdapter == null) {
             mScheduleItemAdapter = new ScheduleItemAdapter(getActivity(), list);
             mSchedule.setAdapter(mScheduleItemAdapter);

@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.wic.buildher.widget.ContentLoadingProgressBar;
 
 import java.util.List;
 
@@ -25,6 +27,8 @@ public class UpdateFragment extends WatchableFragment implements FindCallback<Up
     }
 
     @BindView(R.id.updates) ListView mUpdates;
+    @BindView(R.id.loading) ContentLoadingProgressBar mLoading;
+    @BindView(R.id.loading_failed) TextView mLoadingFailed;
 
     private ParseQuery<Update> mUpdateQuery;
     private UpdateAdapter mUpdateAdapter;
@@ -50,6 +54,7 @@ public class UpdateFragment extends WatchableFragment implements FindCallback<Up
                 .orderByDescending("createdAt")
                 .setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         mUpdateQuery.findInBackground(this);
+        mLoading.show();
     }
 
     @Override
@@ -60,7 +65,14 @@ public class UpdateFragment extends WatchableFragment implements FindCallback<Up
 
     @Override
     public void done(List<Update> list, ParseException e) {
-        if (list == null || e != null) {
+        if (e != null) {
+            if (e.getCode() == ParseException.CONNECTION_FAILED) {
+                mLoading.hide();
+                mLoadingFailed.setVisibility(View.VISIBLE);
+            }
+            return;
+        }
+        if (list == null) {
             return;
         }
         if (isDetached() || getActivity() == null) {
@@ -86,6 +98,7 @@ public class UpdateFragment extends WatchableFragment implements FindCallback<Up
     }
 
     public void showUpdates(List<Update> list) {
+        mLoading.hide();
         if (mUpdateAdapter == null) {
             mUpdateAdapter = new UpdateAdapter(getActivity(), list);
             mUpdates.setAdapter(mUpdateAdapter);
