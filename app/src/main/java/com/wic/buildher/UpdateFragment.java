@@ -2,10 +2,11 @@ package com.wic.buildher;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
@@ -13,6 +14,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.wic.buildher.widget.ContentLoadingProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,12 +28,13 @@ public class UpdateFragment extends WatchableFragment implements FindCallback<Up
         return new UpdateFragment();
     }
 
-    @BindView(R.id.updates) ListView mUpdates;
+    @BindView(R.id.updates) RecyclerView mUpdates;
     @BindView(R.id.loading) ContentLoadingProgressBar mLoading;
     @BindView(R.id.loading_failed) TextView mLoadingFailed;
 
     private ParseQuery<Update> mUpdateQuery;
     private UpdateAdapter mUpdateAdapter;
+    private List<Update> mUpdateList;
 
     public UpdateFragment() {
     }
@@ -49,6 +52,13 @@ public class UpdateFragment extends WatchableFragment implements FindCallback<Up
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mUpdateList = new ArrayList<>();
+
+        mUpdates.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mUpdateAdapter = new UpdateAdapter(getActivity(), mUpdateList);
+        mUpdateAdapter.setHasStableIds(true);
+        mUpdates.setAdapter(mUpdateAdapter);
 
         mUpdateQuery = ParseQuery.getQuery(Update.class)
                 .orderByDescending("createdAt")
@@ -79,34 +89,7 @@ public class UpdateFragment extends WatchableFragment implements FindCallback<Up
             return;
         }
 
-        if (mUpdateAdapter == null) {
-            showUpdates(list);
-        } else {
-            if (mUpdateAdapter.getCount() != list.size()) {
-                // Server has diff number of updates, show the server's updates
-                showUpdates(list);
-            } else {
-                // Check if there are any updates that aren't the same
-                for (int i = 0; i < list.size(); i++) {
-                    if (!list.get(i).hasSameId(mUpdateAdapter.getItem(i))) {
-                        showUpdates(list);
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
-    public void showUpdates(List<Update> list) {
         mLoading.hide();
-        if (mUpdateAdapter == null) {
-            mUpdateAdapter = new UpdateAdapter(getActivity(), list);
-            mUpdates.setAdapter(mUpdateAdapter);
-        } else {
-            mUpdateAdapter.setNotifyOnChange(false);
-            mUpdateAdapter.clear();
-            mUpdateAdapter.addAll(list);
-            mUpdateAdapter.notifyDataSetChanged();
-        }
+        mUpdateAdapter.swap(list);
     }
 }
