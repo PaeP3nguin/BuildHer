@@ -20,7 +20,8 @@ import java.util.Locale;
 import java.util.Random;
 
 /**
- * Custom Parse notification event receiver to change the notification color
+ * Custom Parse notification event receiver
+ * Changes the notification color to blue and launches activity with SINGLE_TOP
  * Source: https://github.com/parse-community/Parse-SDK-Android/blob/master/Parse/src/main/java/com/parse/ParsePushBroadcastReceiver.java
  */
 public class ParsePushReceiver extends ParsePushBroadcastReceiver {
@@ -51,16 +52,11 @@ public class ParsePushReceiver extends ParsePushBroadcastReceiver {
             Log.e(TAG, "Unexpected JSONException when receiving push data: ", e);
         }
 
-        if (MainActivity.VISIBLE) {
-            return;
-        }
-
-        Class<? extends Activity> cls = SplashActivity.class;
         Intent activityIntent;
         if (uriString != null) {
             activityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
         } else {
-            activityIntent = new Intent(context, cls);
+            activityIntent = new Intent(context, MainActivity.class);
         }
 
         activityIntent.putExtras(intent.getExtras());

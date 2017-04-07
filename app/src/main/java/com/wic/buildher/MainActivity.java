@@ -23,8 +23,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity
         implements WatchableFragment.OnLifecycleListener, OnTabSelectListener {
-    public static boolean VISIBLE = false;
-
     @BindView(R.id.bottom_nav) BottomBar mBottomNav;
     @BindView(R.id.fragment_container) View mFragmentContainer;
     @BindView(R.id.background_overlay) SurfaceView mBackgroundOverlay;
@@ -33,6 +31,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setTheme(R.style.AppTheme_TransNav);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
@@ -42,18 +45,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         mBottomNav.setOnTabSelectListener(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        VISIBLE = true;
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        VISIBLE = false;
     }
 
     @Override

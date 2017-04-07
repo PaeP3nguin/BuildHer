@@ -23,5 +23,6 @@
         android:layout_height="@dimen/bottom_nav_height"
         android:layout_alignParentBottom="true"
         app:bb_activeTabColor="@android:color/white"
+        app:bb_behavior="underNavbar"
         app:bb_tabXmlResource="@xml/bottom_nav_items"/>
 </RelativeLayout>
