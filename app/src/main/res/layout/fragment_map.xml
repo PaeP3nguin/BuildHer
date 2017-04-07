@@ -27,9 +27,7 @@
             android:layout_weight="1"
             android:checked="true"
             android:text="Campus"
-            android:textSize="15sp"
-            app:checkedFontPath="fonts/Muli-Bold.ttf"
-            app:uncheckedFontPath="fonts/Muli.ttf"/>
+            android:textSize="15sp"/>
 
         <com.wic.buildher.widget.BorderlessRadioButton
             android:id="@+id/show_tech_1_map"
@@ -37,9 +35,7 @@
             android:layout_height="60dp"
             android:layout_weight="1"
             android:text="Tech floor 1"
-            android:textSize="15sp"
-            app:checkedFontPath="fonts/Muli-Bold.ttf"
-            app:uncheckedFontPath="fonts/Muli.ttf"/>
+            android:textSize="15sp"/>
 
         <com.wic.buildher.widget.BorderlessRadioButton
             android:id="@+id/show_tech_3_map"
@@ -47,8 +43,6 @@
             android:layout_height="60dp"
             android:layout_weight="1"
             android:text="Tech floor 3"
-            android:textSize="15sp"
-            app:checkedFontPath="fonts/Muli-Bold.ttf"
-            app:uncheckedFontPath="fonts/Muli.ttf"/>
+            android:textSize="15sp"/>
     </RadioGroup>
 </com.wic.buildher.widget.FitPaddingLinearLayout>

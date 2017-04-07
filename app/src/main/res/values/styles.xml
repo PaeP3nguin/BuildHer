@@ -34,5 +34,6 @@
     <style name="BorderlessRadioButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:button">@null</item>
+        <item name="fontPath">fonts/Muli.ttf</item>
     </style>
 </resources>
