@@ -1,6 +1,9 @@
 # BuildHer
+![Feature graphic](https://cloud.githubusercontent.com/assets/6243800/24927242/fb89fbb8-1ec3-11e7-94b3-86916bf1d819.png)
 
-See the schedule, maps, and get timely updates for with the official day-of application for BuildHer, Chicago's first-ever student-run women's hackathon.
+See the schedule, maps, and get timely updates for with the official day-of application for [BuildHer](buildher.io), Chicago's first-ever student-run women's hackathon.
+
+[Demo video](https://youtu.be/dpBPaM4XQkI)
 
 ===
 
